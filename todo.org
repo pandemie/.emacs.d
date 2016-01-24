@@ -1,0 +1,13 @@
+* A list of stuff I want to try
+** TODO Copying the current line without marking it
+   (global-set-key (kbd "M-w") 'save-region-or-current-line)
+   (global-set-key (kbd "M-W") '(lambda () (interactive) (save-region-or-current-line 1)))
+** TODO Use multi-term as terminal emulator
+   I did not yet find a satisfactory way to consolidate zsh bindings
+   with emacs bindgs.
+** TODO Moving lines
+   'move-line-* needs to be defined
+   (global-set-key (kbd "<C-S-down>") 'move-line-down)
+   (global-set-key (kbd "<C-S-up>") 'move-line-up)
+** TODO Quickly switching between two buffers
+   With C-. preferably

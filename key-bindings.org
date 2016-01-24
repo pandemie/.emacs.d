@@ -1,0 +1,94 @@
+* Keybindings
+  Thanks to https://github.com/magnars for inspiring a lot of the
+  following key bindings.
+** Quitting emacs
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
+(global-set-key (kbd "C-x C-c") 'delete-frame)
+#+END_SRC
+
+** Expansion
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-<tab>") 'hippie-expand)
+(define-key minibuffer-local-map (kbd "C-<tab>") 'dabbrev-expand)
+#+END_SRC
+
+** Ace Jump
+   Jumping to a character in current buffer
+#+BEGIN_SRC emacs-lisp
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+#+END_SRC
+
+** Remap Backspace
+   C-h as backspace like in bash and help to f1
+#+BEGIN_SRC emacs-lisp
+(define-key key-translation-map [?\C-h] [?\C-?])
+(global-set-key (kbd "<f1>") 'help-command)
+#+END_SRC
+
+** Easier window jumping
+   This works also across multiple frames as compared to "C-x o". Also
+   more ergonomic.
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-ö") 'next-multiframe-window)
+#+END_SRC
+
+** Killing text
+   Simmilar to bash "C-w" should kill the word before point.
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-w") 'kill-region-or-backward-word)
+#+END_SRC
+** f1 helps with anything
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<f1> a") 'apropos)
+#+END_SRC
+
+** Navigation
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x g") 'goto-line)
+(global-set-key (kbd "<home>") 'beginning-of-buffer)
+(global-set-key (kbd "<end>") 'end-of-buffer)
+(global-set-key (kbd "M-<up>") 'beginning-of-buffer)
+(global-set-key (kbd "M-<down>") 'end-of-buffer)
+(global-set-key (kbd "M-p") 'backward-paragraph)
+(global-set-key (kbd "M-n") 'forward-paragraph)
+#+END_SRC
+Move more quickly
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-S-n") (lambda () (interactive) (next-line 5)))
+(global-set-key (kbd "C-S-p") (lambda () (interactive) (previous-line 5)))
+(global-set-key (kbd "C-S-f") (lambda () (interactive) (forward-char 5)))
+(global-set-key (kbd "C-S-b") (lambda () (interactive) (backward-char 5)))
+#+END_SRC
+
+** Query replace regex
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-&") 'query-replace-regexp)
+#+END_SRC
+
+** Toggle comments in source code
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
+#+END_SRC
+
+** Create scratch buffer
+   Is this really necessary with helm-mini?
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c b") 'create-scratch-buffer)
+#+END_SRC
+
+** Magit
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c m") 'magit-status)
+#+END_SRC
+
+** Sorting lines in region
+#+BEGIN_SRC emacs-lisp
+   (global-set-key (kbd "M-s l") 'sort-lines)
+#+END_SRC
+
+** Recompile
+   Run the last compile command again
+#+BEGIN_SRC emacs-lisp
+(global-set-key [f10] 'recompile)
+#+END_SRC

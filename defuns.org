@@ -1,0 +1,10 @@
+* Editing
+** Killing
+   Thanks to https://github.com/magnars for this.
+#+BEGIN_SRC emacs-lisp
+(defun kill-region-or-backward-word ()
+  (interactive)
+  (if (region-active-p)
+      (kill-region (region-beginning) (region-end))
+    (backward-kill-word 1)))
+#+END_SRC

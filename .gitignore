@@ -8,3 +8,7 @@ projectile-bookmarks.eld
 .emacs.desktop
 backup
 eshell
+defuns.el
+key-bindings.el
+settings.el
+*~

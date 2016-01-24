@@ -2,3 +2,44 @@
 #+BEGIN_SRC emacs-lisp
 (menu-bar-mode -1)
 #+END_SRC
+* Setup package repositories
+#+BEGIN_SRC emacs-lisp
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+#+END_SRC
+Somehow I also need the following:
+#+BEGIN_SRC emacs-lisp
+(package-initialize)
+#+END_SRC
+* Install packages
+  Here are all the packages that are needed throughout the rest of the
+  configuration
+#+BEGIN_SRC emacs-lisp
+(setq my-package-list
+ '(
+   ace-jump-mode
+   git-timemachine
+   magit
+  ))
+(mapc #'package-install my-package-list)
+#+END_SRC
+* Load functions
+  Basically code snippets copied from across the internet
+#+BEGIN_SRC emacs-lisp
+(org-babel-load-file
+ (expand-file-name "defuns.org"
+                  user-emacs-directory))
+#+END_SRC
+* Load key bindings
+  All the bindings are defined in a seperate file.
+#+BEGIN_SRC emacs-lisp
+(org-babel-load-file
+ (expand-file-name "key-bindings.org"
+                  user-emacs-directory))
+#+END_SRC
+* Open files on startup
+#+BEGIN_SRC emacs-lisp
+(find-file "~/.emacs.d/settings.org")
+(find-file "~/backup.emacs.d/init.el")
+#+END_SRC
