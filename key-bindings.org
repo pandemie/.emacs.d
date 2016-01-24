@@ -92,3 +92,7 @@ Move more quickly
 #+BEGIN_SRC emacs-lisp
 (global-set-key [f10] 'recompile)
 #+END_SRC
+** Toggle between .cpp and .h
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c o") 'dts-switch-between-header-and-source)
+#+END_SRC

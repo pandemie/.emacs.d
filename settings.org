@@ -1,8 +1,28 @@
-* Turn off menu bar
+* Table of Contentents							:TOC:
+ - [[#root-configuration][Root Configuration]]
+   - [[#set-path-to-emacsd][Set path to .emacs.d]]
+   - [[#set-load-path][Set load path]]
+   - [[#setup-package-repositories][Setup package repositories]]
+   - [[#install-packages][Install packages]]
+   - [[#load-functions][Load functions]]
+   - [[#load-key-bindings][Load key bindings]]
+   - [[#appearence][Appearence]]
+   - [[#misc][Misc]]
+   - [[#c-configuration][C++ configuration]]
+   - [[#open-files-on-startup][Open files on startup]]
+
+* Root Configuration
+** Set path to .emacs.d
 #+BEGIN_SRC emacs-lisp
-(menu-bar-mode -1)
+(setq dotfiles-dir (file-name-directory
+                    (or (buffer-file-name) load-file-name)))
 #+END_SRC
-* Setup package repositories
+** Set load path
+#+BEGIN_SRC emacs-lisp
+(setq site-lisp-dir (expand-file-name "lisp" dotfiles-dir))
+(add-to-list 'load-path site-lisp-dir)
+#+END_SRC
+** Setup package repositories
 #+BEGIN_SRC emacs-lisp
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -12,33 +32,220 @@ Somehow I also need the following:
 #+BEGIN_SRC emacs-lisp
 (package-initialize)
 #+END_SRC
-* Install packages
+** Install packages
   Here are all the packages that are needed throughout the rest of the
   configuration
 #+BEGIN_SRC emacs-lisp
 (setq my-package-list
  '(
    ace-jump-mode
+   color-theme
    git-timemachine
+   keyfreq
    magit
+   openwith
+   powerline
+   toc-org
   ))
 (mapc #'package-install my-package-list)
 #+END_SRC
-* Load functions
+** Load functions
   Basically code snippets copied from across the internet
 #+BEGIN_SRC emacs-lisp
 (org-babel-load-file
  (expand-file-name "defuns.org"
                   user-emacs-directory))
 #+END_SRC
-* Load key bindings
+** Load key bindings
   All the bindings are defined in a seperate file.
 #+BEGIN_SRC emacs-lisp
 (org-babel-load-file
  (expand-file-name "key-bindings.org"
                   user-emacs-directory))
 #+END_SRC
-* Open files on startup
+** Appearence
+*** Toolbars
+   No menu/tool/scroll bar
+#+BEGIN_SRC emacs-lisp
+(dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
+  (when (fboundp mode) (funcall mode -1)))
+#+END_SRC  
+*** Style
+   Basic style is clarity:
+#+BEGIN_SRC emacs-lisp
+(color-theme-initialize)
+(color-theme-clarity)
+#+END_SRC
+   Load this stuff I can hardly decipher from other file. This mostly
+   sets up customizations of the color style.
+#+BEGIN_SRC emacs-lisp
+(org-babel-load-file
+ (expand-file-name "style.org"
+                  user-emacs-directory))
+#+END_SRC
+*** Highlight parens
+#+BEGIN_SRC emacs-lisp
+(show-paren-mode)
+#+END_SRC
+*** Modeline
+#+BEGIN_SRC emacs-lisp
+(powerline-default-theme)   
+#+END_SRC
+** Misc
+*** Mode mappings
+   #+BEGIN_SRC emacs-lisp
+(org-babel-load-file
+ (expand-file-name "mode-mappings.org"
+                  user-emacs-directory))
+#+END_SRC
+*** Scratch buffer
+   Scratch buffer should be in text-mode and empty
+#+BEGIN_SRC emacs-lisp
+(setq initial-major-mode 'text-mode)
+(setq initial-scratch-message "")
+#+END_SRC  
+*** Write backup files to own directory
+#+BEGIN_SRC emacs-lisp
+(setq backup-directory-alist `(("." . ,(expand-file-name
+                                       (concat dotfiles-dir "backups")))))
+#+END_SRC  
+*** Auto refresh dired buffers
+#+BEGIN_SRC emacs-lisp
+(setq global-auto-revert-non-file-buffers t)
+#+END_SRC
+*** Show keystrokes in progress
+#+BEGIN_SRC emacs-lisp
+(setq echo-keystrokes 0.1)
+#+END_SRC
+*** No splash screen
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-startup-message t)
+#+END_SRC
+*** Answering just 'y' or 'n' will do
+#+BEGIN_SRC emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+*** Use UTF-8
+#+BEGIN_SRC emacs-lisp
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+#+END_SRC
+*** Table of contents in org files (toc-org)
+#+BEGIN_SRC emacs-lisp
+(if (require 'toc-org nil t)
+    (add-hook 'org-mode-hook 'toc-org-enable)
+  (warn "toc-org not found"))
+#+END_SRC
+
+*** Remove text in active region if inserting text
+#+BEGIN_SRC emacs-lisp
+(delete-selection-mode 1)
+#+END_SRC
+*** Always display line and column numbers
+#+BEGIN_SRC emacs-lisp
+(setq line-number-mode t)
+(setq column-number-mode t)
+#+END_SRC
+*** Lines should be 80 characters wide, not 72
+#+BEGIN_SRC emacs-lisp
+(setq fill-column 80)
+#+END_SRC
+*** Save a list of recent files visited.
+#+BEGIN_SRC emacs-lisp
+(recentf-mode 1)
+#+END_SRC
+*** Show me empty lines after buffer end
+#+BEGIN_SRC emacs-lisp
+(set-default 'indicate-empty-lines nil)
+#+END_SRC
+*** Don't break lines
+#+BEGIN_SRC emacs-lisp
+(setq-default truncate-lines nil)
+#+END_SRC
+*** CUA
+#+BEGIN_SRC emacs-lisp
+(cua-selection-mode t)
+(setq cua-auto-tabify-rectangles nil)
+#+END_SRC
+*** Compilation window setting
+   Closes compilation window if compilation was successful
+#+BEGIN_SRC emacs-lisp
+(setq compilation-exit-message-function 'compilation-exit-autoclose)
+#+END_SRC
+   auto close window
+#+BEGIN_SRC emacs-lisp
+(setq compilation-scroll-output 't)
+#+END_SRC
+*** Start emacs server
+#+BEGIN_SRC emacs-lisp
+(server-start)
+#+END_SRC
+*** Mose scrolling
+one line at a time
+#+BEGIN_SRC emacs-lisp
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+#+END_SRC
+don't accelerate scrolling
+#+BEGIN_SRC emacs-lisp
+(setq mouse-wheel-progressive-speed nil)
+#+END_SRC
+scroll window under mouse
+#+BEGIN_SRC emacs-lisp
+(setq mouse-wheel-follow-mouse 't)
+#+END_SRC
+keyboard scroll one line at a time
+#+BEGIN_SRC emacs-lisp
+(setq scroll-step 1)
+#+END_SRC
+*** Activate ace jump mode
+#+BEGIN_SRC emacs-lisp
+(autoload
+  'ace-jump-mode
+  "ace-jump-mode"
+  "Emacs quick move minor mode"
+  t)
+#+END_SRC
+*** Accelerated movement
+   So if you keep holding the movement keys, the movement accelerates.
+#+BEGIN_SRC emacs-lisp
+(require 'accelerate)
+(accelerate previous-line 4)
+(accelerate next-line 4)
+(accelerate backward-char 3)
+(accelerate forward-char 3)
+(accelerate dired-previous-line 2)
+(accelerate dired-next-line 2)
+(accelerate speedbar-prev 2)
+(accelerate speedbar-next 2)
+#+END_SRC
+*** Openwith
+   Open files with external applications
+#+BEGIN_SRC emacs-lisp
+(openwith-mode t)
+#+END_SRC
+*** Statistics on command frequencies
+#+BEGIN_SRC emacs-lisp
+(keyfreq-mode 1)
+#+END_SRC
+** C++ configuration
+  Define my own indentation style
+#+BEGIN_SRC emacs-lisp
+(defconst my-cc-style
+  '("cc-mode"
+    (c-offsets-alist . ((innamespace . 0)
+    (topmost-intro . 0)))))
+
+(setq-default c-basic-offset 4
+                  tab-width 4
+                  indent-tabs-mode t)
+
+(c-add-style "my-cc-mode" my-cc-style)
+#+END_SRC
+  I would say this needs refinement.
+** Open files on startup
 #+BEGIN_SRC emacs-lisp
 (find-file "~/.emacs.d/settings.org")
 (find-file "~/backup.emacs.d/init.el")

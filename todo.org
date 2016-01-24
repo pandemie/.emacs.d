@@ -11,3 +11,23 @@
    (global-set-key (kbd "<C-S-up>") 'move-line-up)
 ** TODO Quickly switching between two buffers
    With C-. preferably
+** TODO Check config for bound nil functions
+** TODO Try semantic
+** TODO Try projectile
+** TODO colors in compilation
+   (require 'ansi-color)
+   (defun colorize-compilation-buffer ()
+     (toggle-read-only)
+     (ansi-color-apply-on-region (point-min) (point-max))
+     (toggle-read-only))
+   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+** TODO QML
+   (autoload 'qml-mode "qml-mode" "Editing Qt Declarative." t)
+   (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
+** TODO Snippets
+   yasnippet perhaps
+** TODO irony mode
+** TODO breadcrumb
+** TODO whitespace highlighting
+   Show leading tabs and spaces with symbols. Highlight trailing
+   whitespace.

@@ -12,3 +12,5 @@ defuns.el
 key-bindings.el
 settings.el
 *~
+mode-mappings.el
+style.el

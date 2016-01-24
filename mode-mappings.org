@@ -1,0 +1,39 @@
+* Mode Mappings
+  Mapping file endings to modes
+** Haskell
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+#+END_SRC
+** YAML
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+#+END_SRC
+** HTML
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.html\\'" . html-mode))
+#+END_SRC
+** SVG
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.svg$" . image-mode))
+#+END_SRC
+** Snippets
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("yasnippet/snippets" . snippet-mode))
+#+END_SRC
+** Markdown
+#+BEGIN_SRC emacs-lisp
+(autoload 'markdown-mode "markdown-mode")
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+#+END_SRC
+** ORG
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+#+END_SRC
+** C++
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
+#+END_SRC
+** ROS launch files
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.launch$" . xml-mode))
+#+END_SRC
