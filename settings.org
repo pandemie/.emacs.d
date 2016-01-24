@@ -9,7 +9,6 @@
    - [[#appearence][Appearence]]
    - [[#misc][Misc]]
    - [[#c-configuration][C++ configuration]]
-   - [[#open-files-on-startup][Open files on startup]]
 
 * Root Configuration
 ** Set path to .emacs.d
@@ -41,6 +40,7 @@ Somehow I also need the following:
    ace-jump-mode
    color-theme
    git-timemachine
+   helm
    keyfreq
    magit
    openwith
@@ -90,6 +90,10 @@ Somehow I also need the following:
 *** Modeline
 #+BEGIN_SRC emacs-lisp
 (powerline-default-theme)   
+#+END_SRC
+*** Start in fullscreen mode
+#+BEGIN_SRC emacs-lisp
+(set-frame-parameter nil 'fullscreen 'fullboth)
 #+END_SRC
 ** Misc
 *** Mode mappings
@@ -230,6 +234,14 @@ keyboard scroll one line at a time
 #+BEGIN_SRC emacs-lisp
 (keyfreq-mode 1)
 #+END_SRC
+*** Helm options
+#+BEGIN_SRC emacs-lisp
+(setq helm-buffers-fuzzy-matching t)
+(setq helm-recentf-fuzzy-match t)
+(helm-autoresize-mode 1)
+(setq helm-autoresize-max-height 30)
+(setq helm-buffer-max-length 20)
+#+END_SRC
 ** C++ configuration
   Define my own indentation style
 #+BEGIN_SRC emacs-lisp
@@ -245,8 +257,3 @@ keyboard scroll one line at a time
 (c-add-style "my-cc-mode" my-cc-style)
 #+END_SRC
   I would say this needs refinement.
-** Open files on startup
-#+BEGIN_SRC emacs-lisp
-(find-file "~/.emacs.d/settings.org")
-(find-file "~/backup.emacs.d/init.el")
-#+END_SRC
