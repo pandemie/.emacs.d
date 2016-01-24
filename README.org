@@ -1,2 +1,2 @@
 * My Emacs Configuration
-
+Start exploring in settings.org.
